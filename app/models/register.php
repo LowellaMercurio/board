@@ -11,14 +11,21 @@ class Register extends AppModel {
 		
 				
 		if($db->rowCount($check) != 0){
-			$login=url('thread/index', array($username));
+			$login=url('thread/index', array('us'=>$username));
 			//print "success";
-		}else{
-			$login=url('register/index');
-			//print "error";
 		}
 		return $login;
 		
+	}
+	
+	public function register($newUser, $newPass, $confirmPass){
+		
+		if (($newPass != $confirmPass) || (empty($newPass)) || (empty($confirmPass)) || (empty($newUser))){
+			
+		}else{
+			$db = DB::conn();
+			$addUser = $db->query("INSERT into user SET user_name = '$newUser', password = '$newPass'");
+		}
 	}
 	
 }
