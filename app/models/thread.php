@@ -73,6 +73,37 @@ class Thread extends AppModel
 		$this->write($comment);
 		$db->commit();
 	}
+	
+	public static function login($username, $password){
+		
+		//echo $username, $password;
+		
+		$login = "";
+		$db = DB::conn();
+		$check = $db->query("SELECT * FROM user WHERE user_name = '$username'  AND password = '$password' ");
+		
+				
+		if($db->rowCount($check) != 0){
+			$login=url('thread/index', array('us'=>$username));
+			//print "success";
+		}
+		return $login;
+		
+	}
+	
+	public function register(Comment $newUser, Comment $newPass, Comment $conPass){
+		
+		if (!$newUser->validate()) {
+			throw new ValidationException('invalid comment');
+		}
+
+		$n = $newUser->username;
+		$pw = $newPass->password;
+		/*
+			$db = DB::conn();
+			$addUser = $db->query("INSERT into user SET user_name = '$n', password = '$pw'");
+		*/
+	}
 }
 
 class ValidationException extends AppException

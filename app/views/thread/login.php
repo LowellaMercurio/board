@@ -10,7 +10,7 @@
 	</tr>
 	<tr>
 	<td><input type="submit" class="btn btn-primary" name="login" value="Login"/></td>
-	<td><a class="btn btn-primary" href="<?php eh(url('register/reg_form')); ?>">Register</a></td>
+	<td><a class="btn btn-primary" href="<?php eh(url('thread/reg_form')); ?>">Register</a></td>
 	</tr>
 </table>
 </form>

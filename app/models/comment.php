@@ -2,7 +2,7 @@
 class Comment extends AppModel
 {
 	public $validation = array(
-			'username' => array(
+		'username' => array(
 				'length' => array(
 					'validate_between', 1, 16,
 			),
@@ -10,6 +10,16 @@ class Comment extends AppModel
 		'body' => array(
 			'length' => array(
 				'validate_between', 1, 200,
+			),
+		),
+		'password' => array(
+			'length' => array(
+				'validate_between', 1, 16,
+			),
+		),
+		'confirm_password' => array(
+			'length' => array(
+				'validate_between', 1, 16,
 			),
 		),
 	);
