@@ -1,3 +1,6 @@
+<a href="<?php eh(url('thread/login')) ?>">
+	&larr; Logout
+</a>
 <h1><?php eh($thread->title) ?></h1>
 
 <?php foreach ($comments as $k => $v): ?>
@@ -21,5 +24,6 @@
 	<input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
 	<input type="hidden" name="page_next" value="write_end">
 	<button type="submit" class="btn btn-primary">Submit</button>
+	<a class="btn btn-primary" href="<?php eh(url('thread/index')) ?>">Back to Thread</a>
 </form>
 

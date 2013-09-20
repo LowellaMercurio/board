@@ -1,3 +1,6 @@
+<a href="<?php eh(url('thread/login')) ?>">
+	&larr; Logout
+</a>
 <h1>All threads</h1>
 <ul>
   <?php foreach ($threads as $v): ?>
@@ -10,3 +13,4 @@
 </ul>
 
 <a class="btn btn-large btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
+

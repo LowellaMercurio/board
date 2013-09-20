@@ -1,3 +1,6 @@
+<a href="<?php eh(url('thread/login')) ?>">
+	&larr; Logout
+</a>
 <h1>Create a thread</h1>
 
 <?php if ($thread->hasError() || $comment->hasError()): ?>
@@ -37,4 +40,5 @@
 	<br />
 	<input type="hidden" name="page_next" value="create_end">
 	<button type="submit" class="btn btn-primary">Submit</button>
+	<a class="btn btn-primary" href="<?php eh(url('thread/index')) ?>">Back to Thread</a>
 </form>
