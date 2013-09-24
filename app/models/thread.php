@@ -81,9 +81,10 @@ class Thread extends AppModel
 		$login = "";
 		$db = DB::conn();
 		$check = $db->query("SELECT * FROM user WHERE user_name = ?  AND password = ? ", array($username, $password));
-			
+		
 		if($db->rowCount($check) == 1){
-			$login=url('thread/index', array('us'=>$username));
+			//$login=url('thread/index', array('us'=>$username));
+			$login = header('Location:thread/index?us='.$username);
 			//print "success";
 			return $login;
 		}
