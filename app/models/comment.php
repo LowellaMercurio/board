@@ -16,12 +16,8 @@ class Comment extends AppModel
 			'length' => array(
 				'validate_between', 1, 16,
 			),
-		),
-		'confirm_password' => array(
-			'length' => array(
-				'validate_between', 1, 16,
-			),
-		),
+		)
+		
 	);
 }
 ?>

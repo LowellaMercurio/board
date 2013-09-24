@@ -34,11 +34,11 @@
 	<label>Title</label>
 	<input type="text" class="span2" name="title" value="<?php eh(Param::get('title')) ?>">
 	<label>Your name</label>
-	<input type="text" class="span2" name="username" value="<?php eh(Param::get('username')) ?>">
+	<input type="text" class="span2" disabled name="username" value="<?php print $comment->username; ?>">
 	<label>Comment</label>
 	<textarea name="body"><?php eh(Param::get('body')) ?></textarea>
 	<br />
 	<input type="hidden" name="page_next" value="create_end">
 	<button type="submit" class="btn btn-primary">Submit</button>
-	<a class="btn btn-primary" href="<?php eh(url('thread/index')) ?>">Back to Thread</a>
+	<a class="btn btn-primary" href="<?php eh(url('thread/index', array('us' => $comment->username))) ?>">Back to Thread</a>
 </form>

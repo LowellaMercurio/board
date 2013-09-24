@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<form class="well" method="post" action="<?php eh($login) ?>">
+<form class="well" method="post" action="<?php echo $login; ?>">
 <table>
 	<tr>
 	<td>Username: </td><td><input type="text" name="username" value="<?php eh(Param::get('username'))?>"/></td>

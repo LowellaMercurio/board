@@ -4,7 +4,7 @@ class ThreadController extends AppController
 	public function index()
 	{
 		$threads = Thread::getAll();
-		
+		$user = Param::get('us');
 		$this->set(get_defined_vars());
 		
 	}
@@ -12,6 +12,7 @@ class ThreadController extends AppController
 	public function view()
 	{
 		$thread = Thread::get(Param::get('thread_id'));
+		$user = Param::get('us');
 		$comments = $thread->getComments();
 		$this->set(get_defined_vars());
 	}
@@ -21,11 +22,14 @@ class ThreadController extends AppController
 		$thread = Thread::get(Param::get('thread_id'));
 		$comment = new Comment;
 		$page = Param::get('page_next');
+		//$user = Param::get('us');
+		$comment->username = Param::get('us');
+		$comment->body = Param::get('body');
 		
 		switch ($page) {
+		case 'write':
+			break;
 		case 'write_end':
-			$comment->username = Param::get('username');
-			$comment->body = Param::get('body');
 			try {
 				$thread->write($comment);
 			} catch (ValidationException $e) {
@@ -46,13 +50,14 @@ class ThreadController extends AppController
 		$comment = new Comment;
 		$page = Param::get('page_next', 'create');
 		
+		$thread->title = Param::get('title'); 
+		$comment->username = Param::get('us'); //Get the current login user
+		$comment->body = Param::get('body');
+		
 		switch ($page) {
 			case 'create':
 				break;
 			case 'create_end':
-				$thread->title = Param::get('title');
-				$comment->username = Param::get('username');
-				$comment->body = Param::get('body');
 				try {
 					$thread->create($comment);
 				} catch (ValidationException $e) {
@@ -80,17 +85,23 @@ class ThreadController extends AppController
 		$page = Param::get('page_next', 'reg_form');
 		$account = new Comment;
 		$reg = new Thread;
-		
+		$rslt = new Thread;
+		$account->username = Param::get('username');
+		$account->password = Param::get('password');		
+		$account->confirm_password = Param::get('confirm_password');
 		
 			switch($page){
 				case 'reg_form':
 					break;
 				case 'reg_complete':
-						$account->username = Param::get('username');
-						$account->password = Param::get('password');	
-						$account->confirm_password = Param::get('confirm_password');
+						
 						try {
-							$reg->register($account,$account,$account);
+							$rslt->validatePassword($account->password, $account->confirm_password);
+								if ($rslt->validatePassword = true)
+									$reg->register($account,$account);
+								else
+									$page = 'reg_form';
+							
 						} catch (ValidationException $e) {
 							$page = 'reg_form';
 						}

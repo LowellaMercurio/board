@@ -66,7 +66,7 @@ class Thread extends AppModel
 		$db = DB::conn();
 		$db->begin();
 		
-		$db->query('INSERT INTO thread SET title = ?, created = NOW()', array($this->title));
+		$db->query('INSERT INTO thread SET title = ?, created = NOW(), username = ?', array($this->title, $comment->username));
 		$this->id = $db->lastInsertId();
 		
 		// write first comment at the same time
@@ -80,18 +80,17 @@ class Thread extends AppModel
 		
 		$login = "";
 		$db = DB::conn();
-		$check = $db->query("SELECT * FROM user WHERE user_name = '$username'  AND password = '$password' ");
-		
-				
-		if($db->rowCount($check) != 0){
+		$check = $db->query("SELECT * FROM user WHERE user_name = ?  AND password = ? ", array($username, $password));
+			
+		if($db->rowCount($check) == 1){
 			$login=url('thread/index', array('us'=>$username));
 			//print "success";
+			return $login;
 		}
-		return $login;
 		
 	}
 	
-	public function register(Comment $newUser, Comment $newPass, Comment $conPass){
+	public function register(Comment $newUser, Comment $newPass){
 		
 		if (!$newUser->validate()) {
 			throw new ValidationException('invalid comment');
@@ -103,6 +102,12 @@ class Thread extends AppModel
 			$db = DB::conn();
 			$addUser = $db->query("INSERT into user SET user_name = '$n', password = '$pw'");
 		*/
+	}
+	
+	public static function validatePassword($pass, $confirm_pass)
+	{
+		if($pass == $confirm_pass)
+			return $rslt=true;
 	}
 }
 
