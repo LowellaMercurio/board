@@ -76,8 +76,6 @@ class Thread extends AppModel
 	
 	public static function login($username, $password){
 		
-		//echo $username, $password;
-		
 		$login = "";
 		$db = DB::conn();
 		$check = $db->query("SELECT * FROM user WHERE user_name = ?  AND password = ? ", array($username, $password));
@@ -85,33 +83,41 @@ class Thread extends AppModel
 		if($db->rowCount($check) == 1){
 			//$login=url('thread/index', array('us'=>$username));
 			$login = header('Location:thread/index?us='.$username);
-			//print "success";
+			
 			return $login;
 		}
 		
 	}
 	
-	public function register(Comment $newUser, Comment $newPass){
+	public function register(Comment $account){
 		
-		if (!$newUser->validate()) {
+		if (!$account->validate()) {
 			throw new ValidationException('invalid comment');
 		}
 
-		$n = $newUser->username;
-		$pw = $newPass->password;
-		/*
-			$db = DB::conn();
-			$addUser = $db->query("INSERT into user SET user_name = '$n', password = '$pw'");
-		*/
+		$n = $account->username;
+		$pw = $account->password;
+		
+		$db = DB::conn();
+		$addUser = $db->query("INSERT into user SET user_name = ? , password = ?" , array($n, $pw));
+			
 	}
 	
-	public static function validatePassword($pass, $confirm_pass)
-	{
-		if($pass == $confirm_pass)
-			return $rslt=true;
-	}
+	public static function objectToarray($data)
+    {
+        try{
+            if (is_array($data) || is_object($data)){
+                $result = array();
+                foreach ($data as $key => $value){
+                    $result[$key] = $value;
+                }
+                return $result;
+            }
+            return $data;
+        } catch(ErrorException $e) {
+            return "error ";
+        }
+    }
+	
 }
-
-class ValidationException extends AppException
-{}
 ?>

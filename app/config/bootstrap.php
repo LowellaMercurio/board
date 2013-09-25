@@ -1,24 +1,37 @@
 <?php
 // application
-require_once APP_DIR.'app_controller.php';
-require_once APP_DIR.'app_model.php';
-require_once APP_DIR.'app_layout_view.php';
-require_once APP_DIR.'app_exception.php';
+require_once APP_DIR .'app_controller.php';
+require_once APP_DIR .'app_model.php';
+require_once APP_DIR .'app_layout_view.php';
+require_once APP_DIR .'app_exception.php';
 
 // config
-require_once CONFIG_DIR.'log.php';
-require_once CONFIG_DIR.'router.php';
-require_once CONFIG_DIR.'database.php';
+require_once CONFIG_DIR .'log.php';
+require_once CONFIG_DIR .'router.php';
+require_once CONFIG_DIR .'database.php';
 
 // vendor
-require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
+require_once VENDOR_DIR .'SimpleDBI/SimpleDBI.php';
+
+require_once VENDOR_DIR .'Pagerfanta/Adapter/AdapterInterface.php';
+require_once VENDOR_DIR .'Pagerfanta/Adapter/ArrayAdapter.php';
+
+require_once VENDOR_DIR .'Pagerfanta/View/ViewInterface.php';
+require_once VENDOR_DIR .'Pagerfanta/View/DefaultView.php';
+
+require_once VENDOR_DIR .'Pagerfanta/View/Template/TemplateInterface.php';
+require_once VENDOR_DIR .'Pagerfanta/View/Template/Template.php';
+require_once VENDOR_DIR .'Pagerfanta/View/Template/DefaultTemplate.php';
+
+require_once VENDOR_DIR .'Pagerfanta/PagerfantaInterface.php';
+require_once VENDOR_DIR .'Pagerfanta/Pagerfanta.php';
 
 // helpers
-require_once HELPERS_DIR.'html_helper.php';
-require_once HELPERS_DIR.'validation_helper.php';
+require_once HELPERS_DIR .'html_helper.php';
+require_once HELPERS_DIR .'validation_helper.php';
 
 // config
-require_once CONFIG_DIR.'log.php';
+require_once CONFIG_DIR .'log.php';
 
 spl_autoload_register(function($name) {
     $filename = Inflector::underscore($name) . '.php';

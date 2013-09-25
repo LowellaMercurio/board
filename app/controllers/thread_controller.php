@@ -3,10 +3,21 @@ class ThreadController extends AppController
 {
 	public function index()
 	{
-		$threads = Thread::getAll();
 		$user = Param::get('us');
-		$this->set(get_defined_vars());
+		$threads = Thread::getAll();
+	
+		$adapter = new \Pagerfanta\Adapter\ArrayAdapter($threads);
+        $paginator = new \Pagerfanta\Pagerfanta($adapter);
 		
+        $paginator->setMaxPerPage(5);
+        $paginator->setCurrentPage(Param::get('page', 1));
+		        $threads = Thread::objectToarray($paginator);
+
+        $view = new \Pagerfanta\View\DefaultView();
+        $options = array('proximity' => 3, 'url' => 'card/all');
+        $html = $view->render($paginator, 'routeGenerator', $options);
+		
+		$this->set(get_defined_vars());
 	}
 	
 	public function view()
@@ -85,7 +96,6 @@ class ThreadController extends AppController
 		$page = Param::get('page_next', 'reg_form');
 		$account = new Comment;
 		$reg = new Thread;
-		$rslt = new Thread;
 		$account->username = Param::get('username');
 		$account->password = Param::get('password');		
 		$account->confirm_password = Param::get('confirm_password');
@@ -93,15 +103,9 @@ class ThreadController extends AppController
 			switch($page){
 				case 'reg_form':
 					break;
-				case 'reg_complete':
-						
+				case 'reg_complete':		
 						try {
-							$rslt->validatePassword($account->password, $account->confirm_password);
-								if ($rslt->validatePassword = true)
-									$reg->register($account,$account);
-								else
-									$page = 'reg_form';
-							
+							$reg->register($account);	
 						} catch (ValidationException $e) {
 							$page = 'reg_form';
 						}

@@ -12,5 +12,9 @@
   <?php endforeach ?>
 </ul>
 
+<div class="div-pagination">
+    <div class="pagerfanta">
+        <?php echo $html ?>
+    </div>
+</div>
 <a class="btn btn-large btn-primary" href="<?php eh(url('thread/create', array('us'=>$user))) ?>">Create</a>
-

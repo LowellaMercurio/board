@@ -17,9 +17,6 @@
 			<?php eh($account->validation['password']['length'][2]) ?> characters in length.
 		</div>
 	<?php endif ?>
-	<?php if ($account->password != $account->confirm_password): ?>
-		<div><em>Confirm password</em> must match your password.</div>
-	<?php endif ?>
 </div>
 <?php endif ?>
 
@@ -30,9 +27,6 @@
    </tr>
    <tr>
 	   <td>Password: </td><td><input type="password" name="password" /></td>
-   </tr>
-   <tr>
-       <td>Confirm Password: </td><td><input type="password" name="confirm_password" /></td>
    </tr>
    <tr>
 	   <input type="hidden" name="page_next" value="reg_complete">

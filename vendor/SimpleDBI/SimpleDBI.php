@@ -77,8 +77,7 @@ class SimpleDBI
     /**
      * データベースインスタンスに接続完了時に呼ばれるメソッド
      *
-     * このメソッドはオーバーライドして使います。
-     *
+     * @return void
      */
     protected function onConnect()
     {
@@ -89,8 +88,13 @@ class SimpleDBI
      *
      * このメソッドはオーバーライドして使います。
      *
+     * 例）実行時間をデバッグ出力
+     *
+     *   Log::debug($this->st->exec_time);
+     *
      * @param string $sql 実行した SQL
      * @param array $params SQL にバインドされたパラメータ
+     * @return void
      */
     protected function onQueryEnd($sql, array $params = array())
     {
@@ -245,8 +249,8 @@ class SimpleDBI
      */
     public function row($sql, array $params = array())
     {
-        $rows = $this->rows($sql, $params);
-        return $rows ? $rows[0] : false;
+        $this->query($sql, $params);
+        return $this->st->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -274,21 +278,6 @@ class SimpleDBI
     {
         $row = $this->row($sql, $params);
         return $row ? current($row) : false;
-    }
-
-    /**
-     * SQL を実行して、結果から指定した列のみを含むすべての行を取得する
-     *
-     * @param $sql
-     * @param array $params
-     * @param int $column_number
-     * @return array
-     */
-    public function columns($sql, array $params = array(), $column_number = 0)
-    {
-        $this->query($sql, $params);
-        $rows = $this->st->fetchAll(PDO::FETCH_COLUMN, $column_number);
-        return $rows ? $rows : array();
     }
 
     /**
@@ -393,12 +382,12 @@ class SimpleDBI
      *
      * ネストランザクションに対応しています。
      *
+     * @return void
      */
     public function begin()
     {
         if (count($this->trans_stack) == 0) {
-            $this->pdo->beginTransaction();
-            $this->onQueryEnd('BEGIN');
+            $this->query('BEGIN');
             $this->is_uncommitable = false;
         }
         array_push($this->trans_stack, 'A');
@@ -407,6 +396,7 @@ class SimpleDBI
     /**
      * トランザクションをコミットする
      *
+     * @return void
      * @throws PDOException
      */
     public function commit()
@@ -415,8 +405,7 @@ class SimpleDBI
             if ($this->is_uncommitable) {
                 throw new PDOException('Cannot commit because a nested transaction was rolled back');
             } else {
-                $this->pdo->commit();
-                $this->onQueryEnd('COMMIT');
+                $this->query('COMMIT');
             }
         }
         array_pop($this->trans_stack);
@@ -425,12 +414,12 @@ class SimpleDBI
     /**
      * トランザクションをロールバックする
      *
+     * @return void
      */
     public function rollback()
     {
         if (count($this->trans_stack) <= 1) {
-            $this->pdo->rollBack();
-            $this->onQueryEnd('ROLLBACK');
+            $this->query('ROLLBACK');
         } else {
             $this->is_uncommitable = true;
         }
