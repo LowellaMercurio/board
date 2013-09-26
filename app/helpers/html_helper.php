@@ -14,5 +14,5 @@ function readable_text($s)
 }
 function routeGenerator($page)
 {
-    return $_SERVER['REDIRECT_URL'].'?page='.$page;
+    return $_SERVER['REDIRECT_URL'].'?page='.$page.'&us='.$_SESSION['us'];
 }

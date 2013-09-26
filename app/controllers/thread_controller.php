@@ -1,9 +1,11 @@
 <?php
+session_start();
 class ThreadController extends AppController
 {
 	public function index()
 	{
 		$user = Param::get('us');
+		$_SESSION['us'] = $user;
 		$threads = Thread::getAll();
 	
 		$adapter = new \Pagerfanta\Adapter\ArrayAdapter($threads);
@@ -11,7 +13,7 @@ class ThreadController extends AppController
 		
         $paginator->setMaxPerPage(5);
         $paginator->setCurrentPage(Param::get('page', 1));
-		        $threads = Thread::objectToarray($paginator);
+		$threads = Thread::objectToarray($paginator);
 
         $view = new \Pagerfanta\View\DefaultView();
         $options = array('proximity' => 3, 'url' => 'card/all');
@@ -19,7 +21,7 @@ class ThreadController extends AppController
 		
 		$this->set(get_defined_vars());
 	}
-	
+
 	public function view()
 	{
 		$thread = Thread::get(Param::get('thread_id'));

@@ -17,4 +17,5 @@
         <?php echo $html ?>
     </div>
 </div>
+<br /><br />
 <a class="btn btn-large btn-primary" href="<?php eh(url('thread/create', array('us'=>$user))) ?>">Create</a>
